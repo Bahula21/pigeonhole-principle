@@ -116,6 +116,201 @@ h2 {
   font-size: clamp(2.25rem, 5vw, 4rem);
 }
 
+.experiment {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.experiment-controls {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+}
+
+.experiment-inputs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.experiment label,
+.prediction-panel legend {
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+.experiment label {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.experiment input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--color-line);
+  color: var(--color-ink);
+  background: var(--color-paper);
+  font: inherit;
+  font-size: 1rem;
+}
+
+.prediction-panel {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.prediction-options,
+.experiment-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.choice-button,
+.action-button {
+  min-height: 2.75rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--color-accent-dark);
+  color: var(--color-accent-dark);
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.choice-button:hover,
+.choice-button:focus-visible,
+.action-button:hover,
+.action-button:focus-visible,
+.choice-button.is-selected {
+  color: var(--color-surface);
+  background: var(--color-accent-dark);
+}
+
+.choice-button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.action-button--primary {
+  color: var(--color-surface);
+  background: var(--color-accent);
+}
+
+.action-button--primary:hover,
+.action-button--primary:focus-visible {
+  background: var(--color-accent-dark);
+}
+
+.prediction-status {
+  min-height: 1.5rem;
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.experiment-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: 1rem;
+  min-height: 10rem;
+  padding: 1rem;
+  border: 1px dashed var(--color-line);
+  background: rgb(255 253 248 / 58%);
+}
+
+.board-empty {
+  align-self: center;
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.hole-box {
+  display: flex;
+  min-height: 7rem;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  border: 2px solid var(--color-line);
+  background: var(--color-paper);
+}
+
+.hole-box--crowded {
+  border-color: var(--color-accent-dark);
+  background: #f8e5dc;
+}
+
+.hole-label {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.pigeon-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 0.35rem;
+}
+
+.pigeon {
+  display: grid;
+  width: 2.25rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 2px solid var(--color-accent-dark);
+  border-radius: 50%;
+  color: var(--color-accent-dark);
+  background: #ffd7c8;
+  font-size: 0.75rem;
+  font-weight: 700;
+  opacity: 0;
+  animation: pigeon-arrive 520ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.hole-count {
+  margin-top: auto;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.experiment-result {
+  padding: 1.25rem 1.5rem;
+  border-left: 4px solid var(--color-accent);
+  background: var(--color-surface);
+}
+
+.experiment-result p {
+  margin: 0.35rem 0 0;
+}
+
+.experiment-result p:first-child {
+  margin-top: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+@keyframes pigeon-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(-1.8rem) scale(0.7);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @media (max-width: 48rem) {
   .site-header__inner {
     align-items: flex-start;
@@ -130,5 +325,9 @@ h2 {
 
   .page-section--intro {
     min-height: calc(100vh - 8rem);
+  }
+
+  .experiment-inputs {
+    grid-template-columns: 1fr;
   }
 }
