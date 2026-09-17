@@ -22,10 +22,35 @@
   </header>
   <main class="content-page">
     <section class="page-heading content-width" aria-labelledby="challenge-heading">
-      <p class="eyebrow">05 / Coming next</p>
+      <p class="eyebrow">05 / Knowledge check</p>
       <h1 id="challenge-heading">Challenge</h1>
-      <p class="page-heading__lead">This page will contain problems to test your understanding.</p>
+      <p class="page-heading__lead">Eight concise questions to test whether you can spot the objects, categories, and guaranteed conclusion.</p>
+    </section>
+
+    <section class="content-width challenge-app" data-challenge-app aria-labelledby="challenge-app-heading">
+      <div class="activity-topline">
+        <div>
+          <p class="card-kicker">Final check</p>
+          <h2 id="challenge-app-heading">Choose the best answer</h2>
+        </div>
+        <p class="progress-pill" data-challenge-progress>Question 1 of 8</p>
+      </div>
+      <article class="challenge-card">
+        <p class="scenario-label" data-challenge-category></p>
+        <h3 data-challenge-question></h3>
+        <div class="quiz-options" data-challenge-options></div>
+        <button class="action-button action-button--primary" type="button" data-challenge-submit>Submit answer</button>
+        <div class="feedback-panel" data-challenge-feedback aria-live="polite" hidden></div>
+        <button class="action-button" type="button" data-challenge-next hidden>Next question</button>
+      </article>
+      <div class="challenge-finish" data-challenge-finish hidden>
+        <p class="card-kicker">Quiz complete</p>
+        <h2>You scored <span data-challenge-score>0</span> out of 8.</h2>
+        <p data-challenge-message></p>
+        <button class="action-button action-button--primary" type="button" data-challenge-restart>Try again</button>
+      </div>
     </section>
   </main>
+  <script src="script.js" defer></script>
 </body>
 </html>

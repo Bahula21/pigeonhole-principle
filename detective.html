@@ -22,10 +22,50 @@
   </header>
   <main class="content-page">
     <section class="page-heading content-width" aria-labelledby="detective-heading">
-      <p class="eyebrow">03 / Coming next</p>
+      <p class="eyebrow">03 / Deduction lab</p>
       <h1 id="detective-heading">Pigeonhole Detective</h1>
-      <p class="page-heading__lead">This page will contain deduction-based investigations using the principle.</p>
+      <p class="page-heading__lead">Read each situation like a mathematician. Identify the objects and the categories before the principle gives you the guarantee.</p>
+    </section>
+
+    <section class="content-width detective-app" data-detective-app aria-labelledby="detective-app-heading">
+      <div class="activity-topline">
+        <div>
+          <p class="card-kicker">Case file</p>
+          <h2 id="detective-app-heading">What are the pigeons and holes?</h2>
+        </div>
+        <p class="progress-pill" data-detective-progress>Scenario 1 of 5</p>
+      </div>
+
+      <article class="detective-card" aria-live="polite">
+        <p class="scenario-label" data-detective-category>Birth months</p>
+        <h3 data-detective-question></h3>
+        <div class="detective-choices">
+          <label class="select-field">
+            <span>Pigeons &rarr;</span>
+            <select data-detective-pigeons aria-label="Choose the pigeons">
+              <option value="">Choose objects</option>
+            </select>
+          </label>
+          <label class="select-field">
+            <span>Holes &rarr;</span>
+            <select data-detective-holes aria-label="Choose the holes">
+              <option value="">Choose categories</option>
+            </select>
+          </label>
+        </div>
+        <button class="action-button action-button--primary" type="button" data-detective-submit>Submit identification</button>
+        <div class="feedback-panel" data-detective-feedback aria-live="polite" hidden></div>
+        <button class="action-button" type="button" data-detective-next hidden>Next scenario</button>
+      </article>
+
+      <div class="detective-finish" data-detective-finish hidden>
+        <p class="card-kicker">Investigation complete</p>
+        <h2>You identified <span data-detective-score>0</span> of 5 scenarios.</h2>
+        <p data-detective-message></p>
+        <button class="action-button action-button--primary" type="button" data-detective-restart>Try the scenarios again</button>
+      </div>
     </section>
   </main>
+  <script src="script.js" defer></script>
 </body>
 </html>

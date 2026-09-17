@@ -22,10 +22,78 @@
   </header>
   <main class="content-page">
     <section class="page-heading content-width" aria-labelledby="examples-heading">
-      <p class="eyebrow">04 / Coming next</p>
+      <p class="eyebrow">04 / Worked examples</p>
       <h1 id="examples-heading">Examples</h1>
-      <p class="page-heading__lead">This page will collect applications of the Pigeonhole Principle.</p>
+      <p class="page-heading__lead">See the same counting idea appear in everyday situations, pure mathematics, and computer science.</p>
+    </section>
+
+    <section class="content-width examples-grid" data-examples-app aria-label="Worked examples">
+      <article class="example-card example-card--worked" data-example-card>
+        <p class="card-kicker">Example 1 / Basic principle</p>
+        <h2>Gloves in a drawer</h2>
+        <p class="example-question">A drawer contains black and white gloves. How many gloves must you take to guarantee two of the same color?</p>
+        <button class="action-button action-button--primary" type="button" data-reveal-example>Reveal solution</button>
+        <div class="solution-panel" data-example-solution hidden>
+          <p><strong>Pigeons:</strong> the gloves you take.</p>
+          <p><strong>Holes:</strong> the 2 colors, black and white.</p>
+          <p>With 3 gloves and 2 colors, the calculation is <strong>ceil(3 / 2) = 2</strong>.</p>
+          <p class="conclusion">Therefore, 3 gloves guarantee two gloves of the same color.</p>
+        </div>
+      </article>
+
+      <article class="example-card example-card--worked" data-example-card>
+        <p class="card-kicker">Example 2 / Generalized principle</p>
+        <h2>Books on shelves</h2>
+        <p class="example-question">If 23 books are placed on 6 shelves, what can you guarantee about one shelf?</p>
+        <button class="action-button action-button--primary" type="button" data-reveal-example>Reveal solution</button>
+        <div class="solution-panel" data-example-solution hidden>
+          <p><strong>Pigeons:</strong> 23 books.</p>
+          <p><strong>Holes:</strong> 6 shelves.</p>
+          <p>The generalized principle gives <strong>ceil(23 / 6) = 4</strong>.</p>
+          <p class="conclusion">Therefore, at least one shelf contains 4 or more books.</p>
+        </div>
+      </article>
+
+      <article class="example-card example-card--worked" data-example-card>
+        <p class="card-kicker">Example 3 / Real life</p>
+        <h2>Birthdays in a group</h2>
+        <p class="example-question">A club has 25 members. What must be true about their birthdays?</p>
+        <button class="action-button action-button--primary" type="button" data-reveal-example>Reveal solution</button>
+        <div class="solution-panel" data-example-solution hidden>
+          <p><strong>Pigeons:</strong> 25 members.</p>
+          <p><strong>Holes:</strong> 12 months of the year.</p>
+          <p>The calculation is <strong>ceil(25 / 12) = 3</strong>.</p>
+          <p class="conclusion">Therefore, at least 3 members share a birth month.</p>
+        </div>
+      </article>
+
+      <article class="example-card example-card--worked" data-example-card>
+        <p class="card-kicker">Example 4 / Number theory</p>
+        <h2>Remainders</h2>
+        <p class="example-question">Among 8 integers, what can you guarantee about their remainders when divided by 7?</p>
+        <button class="action-button action-button--primary" type="button" data-reveal-example>Reveal solution</button>
+        <div class="solution-panel" data-example-solution hidden>
+          <p><strong>Pigeons:</strong> the 8 integers.</p>
+          <p><strong>Holes:</strong> the 7 possible remainders, 0 through 6.</p>
+          <p>Since <strong>8 &gt; 7</strong>, two integers must have the same remainder.</p>
+          <p class="conclusion">Therefore, their difference is divisible by 7.</p>
+        </div>
+      </article>
+
+      <article class="example-card example-card--worked" data-example-card>
+        <p class="card-kicker">Example 5 / Computer science</p>
+        <h2>Hash collisions</h2>
+        <p class="example-question">A hash table has 100 buckets. What is unavoidable when 101 different keys are inserted?</p>
+        <button class="action-button action-button--primary" type="button" data-reveal-example>Reveal solution</button>
+        <div class="solution-panel" data-example-solution hidden>
+          <p><strong>Pigeons:</strong> the 101 keys.</p>
+          <p><strong>Holes:</strong> the 100 hash buckets.</p>
+          <p>There are more keys than buckets: <strong>101 &gt; 100</strong>.</p>
+          <p class="conclusion">Therefore, at least two keys must hash to the same bucket: a collision.</p>
+        </div>
+      </article>
     </section>
   </main>
+  <script src="script.js" defer></script>
 </body>
 </html>
