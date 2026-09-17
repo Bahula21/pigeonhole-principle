@@ -11,87 +11,49 @@
 <body>
   <header class="site-header">
     <div class="site-header__inner">
-      <a class="site-title" href="#home">Pigeonhole Principle</a>
+      <a class="site-title" href="index.html">Pigeonhole Principle</a>
       <nav class="site-nav" aria-label="Main navigation">
-        <a href="#home">Home</a>
-        <a href="#learn">Learn</a>
-        <a href="#experiment">Interactive Experiment</a>
-        <a href="#detective">Pigeonhole Detective</a>
-        <a href="#examples">Examples</a>
-        <a href="#challenge">Challenge</a>
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="learn.html">Learn</a>
+        <a href="experiment.html">Experiment</a>
+        <a href="detective.html">Detective</a>
+        <a href="examples.html">Examples</a>
+        <a href="challenge.html">Challenge</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section id="home" class="page-section page-section--intro" aria-labelledby="home-heading">
-      <div class="section-content">
-        <p class="section-label">DMS Mathematics Assignment</p>
+    <section class="home-hero" aria-labelledby="home-heading">
+      <div class="content-width home-hero__content">
+        <p class="eyebrow">DMS Mathematics Assignment</p>
         <h1 id="home-heading">The Pigeonhole Principle</h1>
+        <p class="home-hero__lead">A visual introduction to one of discrete mathematics' most useful counting ideas.</p>
+        <a class="button button--primary" href="learn.html">Start learning</a>
       </div>
     </section>
 
-    <section id="learn" class="page-section" aria-labelledby="learn-heading">
-      <div class="section-content">
-        <h2 id="learn-heading">Learn</h2>
-      </div>
-    </section>
-
-    <section id="experiment" class="page-section" aria-labelledby="experiment-heading">
-      <div class="section-content">
-        <h2 id="experiment-heading">Interactive Experiment</h2>
-        <div class="experiment" data-experiment>
-          <form class="experiment-controls" data-experiment-form>
-            <div class="experiment-inputs">
-              <label for="pigeon-count">
-                Number of pigeons
-                <input id="pigeon-count" name="pigeons" type="number" min="1" max="60" value="10" required>
-              </label>
-              <label for="hole-count">
-                Number of holes
-                <input id="hole-count" name="holes" type="number" min="1" max="30" value="7" required>
-              </label>
-            </div>
-
-            <fieldset class="prediction-panel">
-              <legend>Do you think two pigeons will have to share a hole?</legend>
-              <div class="prediction-options">
-                <button class="choice-button" type="button" data-prediction="yes">Yes</button>
-                <button class="choice-button" type="button" data-prediction="no">No</button>
-              </div>
-              <p class="prediction-status" data-prediction-status aria-live="polite">Choose Yes or No before placing the pigeons.</p>
-            </fieldset>
-
-            <div class="experiment-actions">
-              <button class="action-button action-button--primary" type="submit">Place Pigeons</button>
-              <button class="action-button" type="button" data-reset>Reset</button>
-            </div>
-          </form>
-
-          <div class="experiment-board" aria-label="Pigeon and hole simulation" data-experiment-board>
-            <p class="board-empty" data-board-empty>Choose your prediction, then place the pigeons to begin.</p>
-          </div>
-
-          <div class="experiment-result" data-experiment-result aria-live="polite" hidden></div>
+    <section class="home-overview" aria-labelledby="overview-heading">
+      <div class="content-width">
+        <p class="eyebrow">Explore the project</p>
+        <h2 id="overview-heading">From intuition to proof</h2>
+        <div class="overview-grid">
+          <a class="overview-card" href="learn.html">
+            <span class="card-number">01</span>
+            <h3>Learn the idea</h3>
+            <p>Build the principle from a simple example to its general formula.</p>
+          </a>
+          <a class="overview-card" href="experiment.html">
+            <span class="card-number">02</span>
+            <h3>Run the experiment</h3>
+            <p>Place pigeons into holes and see when sharing becomes unavoidable.</p>
+          </a>
+          <a class="overview-card" href="detective.html">
+            <span class="card-number">03</span>
+            <h3>Keep exploring</h3>
+            <p>Use the remaining project areas as the assignment grows.</p>
+          </a>
         </div>
-      </div>
-    </section>
-
-    <section id="detective" class="page-section" aria-labelledby="detective-heading">
-      <div class="section-content">
-        <h2 id="detective-heading">Pigeonhole Detective</h2>
-      </div>
-    </section>
-
-    <section id="examples" class="page-section" aria-labelledby="examples-heading">
-      <div class="section-content">
-        <h2 id="examples-heading">Examples</h2>
-      </div>
-    </section>
-
-    <section id="challenge" class="page-section" aria-labelledby="challenge-heading">
-      <div class="section-content">
-        <h2 id="challenge-heading">Challenge</h2>
       </div>
     </section>
   </main>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn the Pigeonhole Principle from intuition to its generalized form.">
+  <title>Learn | Pigeonhole Principle</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-title" href="index.html">Pigeonhole Principle</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="learn.html" aria-current="page">Learn</a>
+        <a href="experiment.html">Experiment</a>
+        <a href="detective.html">Detective</a>
+        <a href="examples.html">Examples</a>
+        <a href="challenge.html">Challenge</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="content-page">
+    <section class="page-heading content-width" aria-labelledby="learn-heading">
+      <p class="eyebrow">01 / Foundations</p>
+      <h1 id="learn-heading">Learn the Pigeonhole Principle</h1>
+      <p class="page-heading__lead">A small counting rule with surprisingly powerful consequences.</p>
+    </section>
+
+    <div class="content-width learn-layout">
+      <article class="lesson-card lesson-card--wide" aria-labelledby="what-heading">
+        <p class="card-kicker">The idea</p>
+        <h2 id="what-heading">What is the Pigeonhole Principle?</h2>
+        <p>If you put more objects into fewer boxes, at least one box must contain more than one object. The objects can be anything and the boxes can represent any categories, locations, or choices.</p>
+        <p>It is not a rule about pigeons alone. Pigeons and holes are simply an easy picture for a general fact about counting: when there are not enough places to keep everything separate, repetition is unavoidable.</p>
+      </article>
+
+      <article class="lesson-card definition-card" aria-labelledby="definition-heading">
+        <p class="card-kicker">Formal definition</p>
+        <h2 id="definition-heading">The principle</h2>
+        <blockquote>If <em>n</em> + 1 objects are placed into <em>n</em> boxes, then at least one box contains at least two objects.</blockquote>
+        <p class="math-display"><em>n</em> + 1 objects &rarr; <em>n</em> boxes &rarr; one box has &ge; 2 objects</p>
+      </article>
+
+      <article class="lesson-card" aria-labelledby="basic-heading">
+        <p class="card-kicker">Visual intuition</p>
+        <h2 id="basic-heading">The basic idea</h2>
+        <div class="idea-visual" aria-label="Three pigeons assigned to two holes">
+          <div class="idea-object"><span>P1</span><small>pigeon</small></div>
+          <div class="idea-object"><span>P2</span><small>pigeon</small></div>
+          <div class="idea-object"><span>P3</span><small>pigeon</small></div>
+          <div class="idea-arrow" aria-hidden="true">&rarr;</div>
+          <div class="idea-box"><span>Hole A</span><strong>2 pigeons</strong></div>
+          <div class="idea-box"><span>Hole B</span><strong>1 pigeon</strong></div>
+        </div>
+        <p>With 3 pigeons and only 2 holes, the first two pigeons could use different holes, but the third pigeon has nowhere new to go. It must share a hole.</p>
+      </article>
+
+      <article class="lesson-card" aria-labelledby="general-heading">
+        <p class="card-kicker">The generalized principle</p>
+        <h2 id="general-heading">More objects, more boxes</h2>
+        <p>If <em>N</em> objects are distributed among <em>k</em> boxes, at least one box contains at least:</p>
+        <p class="formula"><span>ceil</span>(<em>N</em> / <em>k</em>)</p>
+        <p>For example, distributing 17 objects among 5 boxes guarantees that one box contains at least <strong>ceil(17 / 5) = 4</strong> objects.</p>
+      </article>
+
+      <article class="lesson-card lesson-card--wide explanation-card" aria-labelledby="why-heading">
+        <p class="card-kicker">Reasoning</p>
+        <h2 id="why-heading">Why does it work?</h2>
+        <p>Imagine trying to keep every box below the claimed number. If each of the <em>k</em> boxes held fewer than ceil(<em>N</em> / <em>k</em>) objects, the total number of objects would be too small to reach <em>N</em>. Since all <em>N</em> objects must go somewhere, at least one box reaches that ceiling.</p>
+      </article>
+
+      <article class="lesson-card example-card" aria-labelledby="quick-heading">
+        <p class="card-kicker">Quick example</p>
+        <h2 id="quick-heading">13 students, 12 birth months</h2>
+        <ul class="count-list">
+          <li><strong>Objects:</strong> 13 students</li>
+          <li><strong>Boxes:</strong> 12 months</li>
+          <li><strong>Conclusion:</strong> at least 2 students share a birth month</li>
+        </ul>
+        <details class="try-example">
+          <summary>Try this example</summary>
+          <p>Could every student have a different birth month? No. There are only 12 months for 13 students, so the thirteenth student must share a month with someone else.</p>
+        </details>
+      </article>
+    </div>
+  </main>
+</body>
+</html>

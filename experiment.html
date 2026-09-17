@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Run an interactive simulation of the Pigeonhole Principle.">
+  <title>Experiment | Pigeonhole Principle</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-title" href="index.html">Pigeonhole Principle</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="learn.html">Learn</a>
+        <a href="experiment.html" aria-current="page">Experiment</a>
+        <a href="detective.html">Detective</a>
+        <a href="examples.html">Examples</a>
+        <a href="challenge.html">Challenge</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="content-page">
+    <section class="page-heading content-width" aria-labelledby="experiment-heading">
+      <p class="eyebrow">02 / Interactive laboratory</p>
+      <h1 id="experiment-heading">Interactive Pigeonhole Experiment</h1>
+      <p class="page-heading__lead">Make a prediction, place the pigeons, and watch the counting principle take shape.</p>
+    </section>
+
+    <section class="content-width experiment" data-experiment aria-label="Pigeonhole experiment">
+      <form class="experiment-controls" data-experiment-form>
+        <div class="experiment-inputs">
+          <label for="pigeon-count">
+            Number of pigeons
+            <input id="pigeon-count" name="pigeons" type="number" min="1" max="60" value="10" required>
+          </label>
+          <label for="hole-count">
+            Number of holes
+            <input id="hole-count" name="holes" type="number" min="1" max="30" value="7" required>
+          </label>
+        </div>
+
+        <fieldset class="prediction-panel">
+          <legend>Do you think two pigeons will have to share a hole?</legend>
+          <div class="prediction-options">
+            <button class="choice-button" type="button" data-prediction="yes">Yes</button>
+            <button class="choice-button" type="button" data-prediction="no">No</button>
+          </div>
+          <p class="prediction-status" data-prediction-status aria-live="polite">Choose Yes or No before placing the pigeons.</p>
+        </fieldset>
+
+        <div class="experiment-actions">
+          <button class="action-button action-button--primary" type="submit">Place Pigeons</button>
+          <button class="action-button" type="button" data-reset>Reset</button>
+        </div>
+      </form>
+
+      <div class="experiment-board" aria-label="Pigeon and hole simulation" data-experiment-board>
+        <p class="board-empty" data-board-empty>Choose your prediction, then place the pigeons to begin.</p>
+      </div>
+
+      <div class="experiment-result" data-experiment-result aria-live="polite" hidden></div>
+    </section>
+  </main>
+</body>
+</html>
