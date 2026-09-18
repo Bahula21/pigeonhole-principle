@@ -350,3 +350,326 @@ if (challengeApp) {
 
 	renderQuestion();
 }
+
+const laboratoryApp = document.querySelector("[data-laboratory]");
+
+if (laboratoryApp) {
+	const objectInput = laboratoryApp.querySelector("input[data-lab-objects]");
+	const holeInput = laboratoryApp.querySelector("input[data-lab-holes]");
+	const applyButton = laboratoryApp.querySelector("[data-lab-apply]");
+	const resetButton = laboratoryApp.querySelector("[data-lab-reset]");
+	const newChallengeButton = laboratoryApp.querySelector("[data-lab-new-challenge]");
+	const tray = laboratoryApp.querySelector(".lab-tray");
+	const holesBoard = laboratoryApp.querySelector(".lab-holes");
+	const mathLine = laboratoryApp.querySelector("[data-lab-math]");
+	const currentLine = laboratoryApp.querySelector("[data-lab-current]");
+	const statusLine = laboratoryApp.querySelector("[data-lab-status]");
+	const revealButton = laboratoryApp.querySelector("[data-lab-reveal]");
+	const reasonPanel = laboratoryApp.querySelector("[data-lab-reason]");
+	const challengePanel = laboratoryApp.querySelector("[data-lab-challenge]");
+	const challengeText = laboratoryApp.querySelector("[data-lab-challenge-text]");
+	const challengePatterns = [
+		{ objects: 8, holes: 3 },
+		{ objects: 14, holes: 4 },
+		{ objects: 17, holes: 5 },
+		{ objects: 19, holes: 6 },
+		{ objects: 23, holes: 7 }
+	];
+	let draggingObjectId = null;
+	let selectedObjectId = null;
+	let ghostElement = null;
+	let state = {
+		objectCount: 11,
+		holeCount: 5,
+		holeAssignments: [],
+		objects: [],
+		challenge: null
+	};
+
+	const minimumGuaranteedOccupancy = (objects, holes) => Math.ceil(objects / holes);
+
+	const clampValue = (value, min, max) => Math.min(Math.max(value, min), max);
+
+	const buildSetup = (objectCount, holeCount, challenge = null) => {
+		state = {
+			objectCount,
+			holeCount,
+			holeAssignments: Array.from({ length: holeCount }, () => []),
+			objects: Array.from({ length: objectCount }, (_, index) => ({ id: index + 1 })),
+			challenge
+		};
+		if (challenge) {
+			challengePanel.hidden = false;
+			challengeText.textContent = `Distribute all ${challenge.objects} objects across ${challenge.holes} holes so that no hole contains more than ${challenge.maxPerHole} objects.`;
+		} else {
+			challengePanel.hidden = true;
+			challengeText.textContent = "";
+		}
+		selectedObjectId = null;
+		draggingObjectId = null;
+		reasonPanel.hidden = true;
+		reasonPanel.replaceChildren();
+		renderLaboratory();
+	};
+
+	const getChallengeMax = (challenge) => Math.ceil(challenge.objects / challenge.holes) - 1;
+
+	const currentDistribution = () => state.holeAssignments.map((hole) => hole.length);
+
+	const findCurrentHoleIndex = (objectId) => {
+		for (let holeIndex = 0; holeIndex < state.holeAssignments.length; holeIndex += 1) {
+			if (state.holeAssignments[holeIndex].includes(objectId)) {
+				return holeIndex;
+			}
+		}
+		return -1;
+	};
+
+	const moveObject = (objectId, targetHoleIndex) => {
+		const currentHoleIndex = findCurrentHoleIndex(objectId);
+		if (currentHoleIndex !== -1) {
+			state.holeAssignments[currentHoleIndex] = state.holeAssignments[currentHoleIndex].filter((id) => id !== objectId);
+		}
+		if (targetHoleIndex !== null) {
+			state.holeAssignments[targetHoleIndex].push(objectId);
+		}
+		renderLaboratory();
+	};
+
+	const createObjectChip = (objectId) => {
+		const chip = document.createElement("button");
+		chip.type = "button";
+		chip.draggable = true;
+		chip.className = "lab-object";
+		chip.dataset.objectId = String(objectId);
+		chip.setAttribute("aria-label", `Object ${objectId}`);
+		chip.innerHTML = '<span class="lab-object-icon">🐦</span><span class="lab-object-number">' + objectId + '</span>';
+		chip.addEventListener("click", (event) => {
+			event.stopPropagation();
+			selectedObjectId = objectId;
+			tray.querySelectorAll(".lab-object").forEach((node) => {
+				node.classList.toggle("is-selected", Number(node.dataset.objectId) === selectedObjectId);
+			});
+		});
+		chip.addEventListener("dragstart", (event) => {
+			event.dataTransfer.effectAllowed = "move";
+			event.dataTransfer.setData("text/plain", String(objectId));
+			draggingObjectId = objectId;
+			selectedObjectId = objectId;
+			ghostElement = chip.cloneNode(true);
+			ghostElement.classList.add("lab-drag-ghost");
+			document.body.appendChild(ghostElement);
+			if (event.dataTransfer.setDragImage) {
+				event.dataTransfer.setDragImage(ghostElement, 20, 20);
+			}
+		});
+		chip.addEventListener("dragend", () => {
+			draggingObjectId = null;
+			if (ghostElement) {
+				ghostElement.remove();
+				ghostElement = null;
+			}
+		});
+		chip.addEventListener("pointerdown", (event) => {
+			event.preventDefault();
+			event.stopPropagation();
+			const source = event.currentTarget;
+			draggingObjectId = Number(source.dataset.objectId);
+			selectedObjectId = Number(source.dataset.objectId);
+			ghostElement = source.cloneNode(true);
+			ghostElement.classList.add("lab-drag-ghost");
+			document.body.appendChild(ghostElement);
+			ghostElement.style.left = `${event.clientX - 22}px`;
+			ghostElement.style.top = `${event.clientY - 22}px`;
+		});
+		return chip;
+	};
+
+	const renderLaboratory = () => {
+		tray.replaceChildren();
+		holesBoard.replaceChildren();
+		const assignedIds = new Set(state.holeAssignments.flat());
+		const distribution = currentDistribution();
+		const guaranteed = minimumGuaranteedOccupancy(state.objectCount, state.holeCount);
+		const currentMax = distribution.length ? Math.max(...distribution) : 0;
+
+		mathLine.innerHTML = `Minimum guaranteed maximum occupancy: <strong>${guaranteed}</strong> &middot; ceil(${state.objectCount} / ${state.holeCount}) = ${guaranteed}`;
+		currentLine.innerHTML = `Current distribution: [${distribution.join(", ")}] &middot; Maximum occupancy: <strong>${currentMax}</strong>`;
+
+		if (state.challenge) {
+			const challengeLimit = getChallengeMax(state.challenge);
+			const maxPossibleWithoutViolation = state.challenge.holes * challengeLimit;
+			const assignedTotal = distribution.reduce((sum, count) => sum + count, 0);
+			const hasAll = assignedTotal === state.challenge.objects;
+			const noOverflow = distribution.every((count) => count <= challengeLimit);
+			if (hasAll && noOverflow) {
+				statusLine.textContent = `This would mean every hole stays at or below ${challengeLimit} objects, but the challenge is mathematically impossible: ${state.challenge.objects} objects across ${state.challenge.holes} holes can never avoid having a hole with at least ${guaranteed} objects. The principle guarantees that at least one hole must contain ${guaranteed} or more.`;
+			} else if (hasAll && !noOverflow) {
+				const maxHole = Math.max(...distribution);
+				statusLine.textContent = `A hole has reached ${maxHole} objects, which demonstrates the principle in action. With ${state.challenge.holes} holes and a maximum of ${challengeLimit} objects per hole, you can place at most ${maxPossibleWithoutViolation} objects. But you have ${state.challenge.objects}. Therefore, one hole must contain at least ${guaranteed} objects.`;
+			} else {
+				statusLine.textContent = `With ${state.challenge.holes} holes and a maximum of ${challengeLimit} objects per hole, you can place at most ${maxPossibleWithoutViolation} objects. But you have ${state.challenge.objects}. Therefore, one hole must contain at least ${guaranteed} objects.`;
+			}
+		} else if (state.objectCount <= state.holeCount) {
+			statusLine.textContent = `With ${state.objectCount} objects and ${state.holeCount} holes, the minimum guaranteed occupancy is ${guaranteed}. This does not force a collision because each object can still be placed in a different hole.`;
+		} else {
+			statusLine.textContent = `At least one hole must contain ${guaranteed} or more objects because ${state.objectCount} objects are being distributed into ${state.holeCount} holes.`;
+		}
+
+		tray.addEventListener("dragover", (event) => {
+			event.preventDefault();
+		});
+		tray.addEventListener("drop", (event) => {
+			event.preventDefault();
+			const objectId = Number(event.dataTransfer.getData("text/plain") || draggingObjectId || selectedObjectId);
+			if (!Number.isNaN(objectId)) {
+				moveObject(objectId, null);
+				selectedObjectId = null;
+			}
+		});
+		tray.addEventListener("click", (event) => {
+			if (event.target === tray) {
+				selectedObjectId = null;
+				tray.querySelectorAll(".lab-object").forEach((node) => node.classList.remove("is-selected"));
+			}
+		});
+
+		state.objects.forEach((object) => {
+			if (!assignedIds.has(object.id)) {
+				tray.append(createObjectChip(object.id));
+			}
+		});
+
+		for (let holeIndex = 0; holeIndex < state.holeAssignments.length; holeIndex += 1) {
+			const hole = document.createElement("div");
+			hole.className = `lab-hole${distribution[holeIndex] >= guaranteed && state.objectCount > state.holeCount ? " lab-hole--threshold" : ""}`;
+			hole.dataset.labHoleIndex = String(holeIndex);
+			hole.setAttribute("aria-label", `Hole ${holeIndex + 1}`);
+			hole.addEventListener("dragover", (event) => {
+				event.preventDefault();
+			});
+			hole.addEventListener("drop", (event) => {
+				event.preventDefault();
+				const objectId = Number(event.dataTransfer.getData("text/plain") || draggingObjectId || selectedObjectId);
+				if (!Number.isNaN(objectId)) {
+					moveObject(objectId, holeIndex);
+					selectedObjectId = null;
+				}
+			});
+			hole.addEventListener("click", () => {
+				if (selectedObjectId !== null) {
+					moveObject(selectedObjectId, holeIndex);
+					selectedObjectId = null;
+				}
+			});
+
+			const label = document.createElement("div");
+			label.className = "lab-hole-title";
+			label.textContent = `Hole ${holeIndex + 1}`;
+			hole.append(label);
+
+			const items = document.createElement("div");
+			items.className = "lab-hole-items";
+			state.holeAssignments[holeIndex].forEach((objectId) => {
+				items.append(createObjectChip(objectId));
+			});
+			hole.append(items);
+
+			const count = document.createElement("div");
+			count.className = "lab-hole-count";
+			count.textContent = `${distribution[holeIndex]} object${distribution[holeIndex] === 1 ? "" : "s"}`;
+			hole.append(count);
+			holesBoard.append(hole);
+		}
+	};
+
+	const revealReasoning = () => {
+		const targetObjects = state.challenge ? state.challenge.objects : state.objectCount;
+		const targetHoles = state.challenge ? state.challenge.holes : state.holeCount;
+		const minimum = minimumGuaranteedOccupancy(targetObjects, targetHoles);
+		reasonPanel.hidden = false;
+		reasonPanel.replaceChildren();
+
+		const steps = document.createElement("div");
+		steps.className = "reasoning-steps";
+
+		if (targetObjects <= targetHoles) {
+			steps.innerHTML = `
+				<p class="reasoning-step"><strong>${targetObjects} objects</strong> and <strong>${targetHoles} holes</strong> means every object can still have its own hole.</p>
+				<p class="reasoning-step">The minimum guaranteed occupancy is <strong>ceil(${targetObjects} / ${targetHoles}) = ${minimum}</strong>, but this does not force a collision when the objects are no more than the holes.</p>
+				<p class="reasoning-step">So the principle does not say there must be a shared hole in this case.</p>
+			`;
+		} else {
+			const limitBeforeThreshold = Math.max(0, minimum - 1);
+			const maxWithoutViolation = targetHoles * limitBeforeThreshold;
+			steps.innerHTML = `
+				<p class="reasoning-step"><strong>${targetObjects} objects</strong> are being placed into <strong>${targetHoles} holes</strong>.</p>
+				<p class="reasoning-step">To avoid having <strong>${minimum}</strong> objects in one hole, each hole could hold at most <strong>${limitBeforeThreshold}</strong> objects.</p>
+				<p class="reasoning-step">Maximum possible without reaching ${minimum}: <strong>${targetHoles} × ${limitBeforeThreshold} = ${maxWithoutViolation}</strong>.</p>
+				<p class="reasoning-step">But <strong>${targetObjects} &gt; ${maxWithoutViolation}</strong>.</p>
+				<p class="reasoning-step"><strong>Therefore, at least one hole must contain ${minimum} or more objects.</strong></p>
+				<p class="reasoning-step">ceil(${targetObjects} / ${targetHoles}) = <strong>${minimum}</strong>.</p>
+			`;
+		}
+
+		reasonPanel.append(steps);
+	};
+
+	const handlePointerMove = (event) => {
+		if (draggingObjectId === null) {
+			return;
+		}
+		if (!ghostElement) {
+			return;
+		}
+		ghostElement.style.left = `${event.clientX - 22}px`;
+		ghostElement.style.top = `${event.clientY - 22}px`;
+	};
+
+	const handlePointerUp = (event) => {
+		if (draggingObjectId === null) {
+			return;
+		}
+		const dropTarget = document.elementFromPoint(event.clientX, event.clientY);
+		const holeTarget = dropTarget && dropTarget.closest("[data-lab-hole-index]");
+		const trayTarget = dropTarget && dropTarget.closest("[data-lab-tray]");
+		if (holeTarget) {
+			moveObject(draggingObjectId, Number(holeTarget.dataset.labHoleIndex));
+		} else if (trayTarget) {
+			moveObject(draggingObjectId, null);
+		}
+		draggingObjectId = null;
+		if (ghostElement) {
+			ghostElement.remove();
+			ghostElement = null;
+		}
+	};
+
+	window.addEventListener("pointermove", handlePointerMove);
+	window.addEventListener("pointerup", handlePointerUp);
+	window.addEventListener("pointercancel", handlePointerUp);
+
+	applyButton.addEventListener("click", () => {
+		const objectCount = clampValue(Number(objectInput.value) || 1, 1, 20);
+		const holeCount = clampValue(Number(holeInput.value) || 1, 1, 10);
+		objectInput.value = String(objectCount);
+		holeInput.value = String(holeCount);
+		buildSetup(objectCount, holeCount, null);
+	});
+
+	resetButton.addEventListener("click", () => {
+		buildSetup(state.objectCount, state.holeCount, state.challenge ? { ...state.challenge, maxPerHole: getChallengeMax(state.challenge) } : null);
+	});
+
+	newChallengeButton.addEventListener("click", () => {
+		const pattern = challengePatterns[Math.floor(Math.random() * challengePatterns.length)];
+		const challenge = { ...pattern, maxPerHole: getChallengeMax(pattern) };
+		objectInput.value = String(challenge.objects);
+		holeInput.value = String(challenge.holes);
+		buildSetup(challenge.objects, challenge.holes, challenge);
+	});
+
+	revealButton.addEventListener("click", revealReasoning);
+
+	buildSetup(11, 5, { objects: 11, holes: 5, maxPerHole: 2 });
+}

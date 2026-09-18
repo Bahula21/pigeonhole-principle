@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive Pigeonhole Laboratory with drag-and-drop object distribution.">
+  <title>Laboratory | Pigeonhole Principle</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-title" href="index.html">Pigeonhole Principle</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="learn.html">Learn</a>
+        <a href="experiment.html">Experiment</a>
+        <a href="laboratory.html" aria-current="page">Laboratory</a>
+        <a href="detective.html">Detective</a>
+        <a href="examples.html">Examples</a>
+        <a href="challenge.html">Challenge</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="content-page">
+    <section class="page-heading content-width" aria-labelledby="laboratory-heading">
+      <p class="eyebrow">03 / Interactive laboratory</p>
+      <h1 id="laboratory-heading">Pigeonhole Laboratory</h1>
+      <p class="page-heading__lead">Arrange the objects, test the guarantee, and watch the principle appear in real time.</p>
+    </section>
+
+    <section class="content-width laboratory-app" data-laboratory aria-label="Pigeonhole laboratory simulation">
+      <div class="laboratory-controls">
+        <div class="laboratory-form">
+          <label class="field-label" for="lab-object-count">
+            Number of Objects
+            <input id="lab-object-count" type="number" min="1" max="20" value="11" data-lab-objects>
+          </label>
+
+          <label class="field-label" for="lab-hole-count">
+            Number of Holes
+            <input id="lab-hole-count" type="number" min="1" max="10" value="5" data-lab-holes>
+          </label>
+
+          <div class="laboratory-actions">
+            <button type="button" class="action-button action-button--primary" data-lab-apply>Apply setup</button>
+            <button type="button" class="action-button" data-lab-reset>Reset</button>
+            <button type="button" class="action-button" data-lab-new-challenge>New Challenge</button>
+          </div>
+        </div>
+
+        <div class="laboratory-summary" aria-live="polite">
+          <p class="card-kicker">Mathematical guarantee</p>
+          <p class="lab-summary-line" data-lab-math></p>
+          <p class="lab-summary-line lab-summary-line--muted" data-lab-current></p>
+          <p class="lab-summary-line lab-summary-line--muted" data-lab-status></p>
+        </div>
+      </div>
+
+      <div class="challenge-panel" data-lab-challenge hidden>
+        <p class="card-kicker">Challenge mode</p>
+        <h2>Can you beat the Pigeonhole Principle?</h2>
+        <p data-lab-challenge-text></p>
+      </div>
+
+      <div class="lab-stage" aria-live="polite">
+        <div class="lab-tray" data-lab-tray aria-label="Object tray"></div>
+        <div class="lab-holes" data-lab-holes aria-label="Hole distribution board"></div>
+      </div>
+
+      <div class="lab-controls-row">
+        <button type="button" class="action-button action-button--primary" data-lab-reveal>Reveal Mathematical Reason</button>
+      </div>
+
+      <div class="reasoning-panel" data-lab-reason hidden></div>
+    </section>
+  </main>
+</body>
+</html>
