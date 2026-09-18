@@ -141,6 +141,189 @@ h2 {
   padding: 5rem 0;
 }
 
+.home-hero__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+}
+
+.home-hero__copy {
+  flex: 1 1 0;
+}
+
+.home-hero__visual {
+  flex: 0 0 min(24rem, 35vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 18rem;
+}
+
+.hero-lab {
+  position: relative;
+  width: min(100%, 20rem);
+  height: 12.5rem;
+  overflow: hidden;
+}
+
+.hero-object,
+.hero-hole {
+  position: absolute;
+  display: block;
+}
+
+.hero-object {
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 2px solid rgb(255 255 255 / 80%);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 92%);
+  box-shadow: inset 0 0 0 2px rgb(168 200 224 / 90%);
+  opacity: 0;
+  z-index: 2;
+}
+
+.hero-hole {
+  bottom: 0.8rem;
+  width: 4.8rem;
+  height: 3.5rem;
+  border: 2px solid rgb(255 255 255 / 58%);
+  border-radius: 0.8rem;
+  background: rgb(255 255 255 / 6%);
+}
+
+.hero-hole--1 { left: 10%; }
+.hero-hole--2 { left: 38%; }
+.hero-hole--3 { left: 66%; }
+
+.hero-object--1 {
+  left: 0;
+  top: 0.5rem;
+  animation: hero-object-one 9s ease-in-out infinite;
+}
+
+.hero-object--2 {
+  left: 0;
+  top: 0.8rem;
+  animation: hero-object-two 9s ease-in-out infinite;
+}
+
+.hero-object--3 {
+  left: 0;
+  top: 0.3rem;
+  animation: hero-object-three 9s ease-in-out infinite;
+}
+
+.hero-object--4 {
+  left: 0;
+  top: 0.7rem;
+  animation: hero-object-four 9s ease-in-out infinite;
+}
+
+@keyframes hero-object-one {
+  0%, 12% {
+    opacity: 0;
+    transform: translate(0.5rem, -4rem) scale(0.7);
+  }
+  22%, 38% {
+    opacity: 1;
+    transform: translate(2.7rem, 0.4rem) scale(1);
+  }
+  46%, 58% {
+    opacity: 1;
+    transform: translate(2.9rem, 7.8rem) scale(1);
+  }
+  62%, 68% {
+    opacity: 1;
+    transform: translate(3.1rem, 7.8rem) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0.5rem, -4rem) scale(0.7);
+  }
+}
+
+@keyframes hero-object-two {
+  0%, 18% {
+    opacity: 0;
+    transform: translate(0.5rem, -4.3rem) scale(0.7);
+  }
+  28%, 44% {
+    opacity: 1;
+    transform: translate(8.4rem, 0.3rem) scale(1);
+  }
+  50%, 60% {
+    opacity: 1;
+    transform: translate(8.6rem, 7.6rem) scale(1);
+  }
+  64%, 70% {
+    opacity: 1;
+    transform: translate(8.6rem, 7.6rem) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0.5rem, -4.3rem) scale(0.7);
+  }
+}
+
+@keyframes hero-object-three {
+  0%, 22% {
+    opacity: 0;
+    transform: translate(0.5rem, -4.6rem) scale(0.7);
+  }
+  32%, 48% {
+    opacity: 1;
+    transform: translate(14.8rem, 0.1rem) scale(1);
+  }
+  54%, 62% {
+    opacity: 1;
+    transform: translate(15rem, 7.6rem) scale(1);
+  }
+  66%, 72% {
+    opacity: 1;
+    transform: translate(15rem, 7.6rem) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0.5rem, -4.6rem) scale(0.7);
+  }
+}
+
+@keyframes hero-object-four {
+  0%, 24% {
+    opacity: 0;
+    transform: translate(0.5rem, -4.2rem) scale(0.7);
+  }
+  34%, 50% {
+    opacity: 1;
+    transform: translate(2.1rem, 0.8rem) scale(1);
+  }
+  56%, 60% {
+    opacity: 1;
+    transform: translate(2.3rem, 7.9rem) scale(1);
+  }
+  64%, 70% {
+    opacity: 1;
+    transform: translate(2.3rem, 7.9rem) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0.5rem, -4.2rem) scale(0.7);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-object--1,
+  .hero-object--2,
+  .hero-object--3,
+  .hero-object--4 {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .eyebrow,
 .card-kicker {
   margin: 0 0 0.8rem;
