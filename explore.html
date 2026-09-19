@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore the Pigeonhole Principle through visual, predictive, and hands-on activities.">
+  <title>Explore | Pigeonhole Principle</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-title" href="index.html">Pigeonhole Principle</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="learn.html">Learn</a>
+        <a href="examples.html">Examples</a>
+        <a href="explore.html" aria-current="page">Explore</a>
+        <a href="detective.html">Detective</a>
+        <a href="challenge.html">Challenge</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="content-page">
+    <section class="page-heading content-width" aria-labelledby="explore-heading">
+      <h1 id="explore-heading">Explore</h1>
+      <p class="page-heading__lead">Move between the idea, the prediction, and the hands-on activity.</p>
+    </section>
+
+    <section class="content-width explore-layout" aria-label="Explore the Pigeonhole Principle">
+      <div class="explore-tabs" role="tablist" aria-label="Explore modes">
+        <button class="explore-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-idea" id="tab-idea" data-explore-tab="idea">See the Idea</button>
+        <button class="explore-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-predict" id="tab-predict" data-explore-tab="predict">Predict</button>
+        <button class="explore-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-hands-on" id="tab-hands-on" data-explore-tab="hands-on">Hands-on</button>
+      </div>
+
+      <section class="explore-panel is-active" id="panel-idea" role="tabpanel" aria-labelledby="tab-idea">
+        <div class="explore-idea">
+          <p class="card-kicker">Visual explanation</p>
+          <h2>Three objects into two boxes</h2>
+          <div class="explore-idea__visual" aria-label="Three pigeons assigned to two holes">
+            <div class="explore-idea__object"><span>P1</span><small>pigeon</small></div>
+            <div class="explore-idea__object"><span>P2</span><small>pigeon</small></div>
+            <div class="explore-idea__object"><span>P3</span><small>pigeon</small></div>
+            <div class="explore-idea__arrow" aria-hidden="true">→</div>
+            <div class="explore-idea__box"><span>Hole A</span><strong>2 pigeons</strong></div>
+            <div class="explore-idea__box"><span>Hole B</span><strong>1 pigeon</strong></div>
+          </div>
+          <p class="explore-idea__text"><strong>More objects than boxes</strong> means at least one box must be shared. The third object has nowhere new to go, so repetition becomes unavoidable.</p>
+        </div>
+      </section>
+
+      <section class="explore-panel" id="panel-predict" role="tabpanel" aria-labelledby="tab-predict">
+        <div data-experiment aria-label="Pigeonhole experiment" class="explore-embedded-experiment">
+          <form class="experiment-controls" data-experiment-form>
+            <div class="experiment-inputs">
+              <label for="pigeon-count-explore">
+                Number of pigeons
+                <input id="pigeon-count-explore" name="pigeons" type="number" min="1" max="60" value="10" required>
+              </label>
+              <label for="hole-count-explore">
+                Number of holes
+                <input id="hole-count-explore" name="holes" type="number" min="1" max="30" value="7" required>
+              </label>
+            </div>
+
+            <fieldset class="prediction-panel">
+              <legend>Do you think two pigeons will have to share a hole?</legend>
+              <div class="prediction-options">
+                <button class="choice-button" type="button" data-prediction="yes">Yes</button>
+                <button class="choice-button" type="button" data-prediction="no">No</button>
+              </div>
+              <p class="prediction-status" data-prediction-status aria-live="polite">Choose Yes or No before placing the pigeons.</p>
+            </fieldset>
+
+            <div class="experiment-actions">
+              <button class="action-button action-button--primary" type="submit">Place Pigeons</button>
+              <button class="action-button" type="button" data-reset>Reset</button>
+            </div>
+          </form>
+
+          <div class="experiment-board" aria-label="Pigeon and hole simulation" data-experiment-board>
+            <p class="board-empty" data-board-empty>Choose your prediction, then place the pigeons to begin.</p>
+          </div>
+
+          <div class="experiment-result" data-experiment-result aria-live="polite" hidden></div>
+        </div>
+      </section>
+
+      <section class="explore-panel" id="panel-hands-on" role="tabpanel" aria-labelledby="tab-hands-on">
+        <div data-laboratory aria-label="Pigeonhole laboratory simulation" class="explore-embedded-lab"></div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const tabs = document.querySelectorAll("[data-explore-tab]");
+    const panels = document.querySelectorAll(".explore-panel");
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const target = tab.dataset.exploreTab;
+
+        tabs.forEach((button) => {
+          const isActive = button === tab;
+          button.classList.toggle("is-active", isActive);
+          button.setAttribute("aria-selected", String(isActive));
+        });
+
+        panels.forEach((panel) => {
+          const isActive = panel.id === `panel-${target}`;
+          panel.classList.toggle("is-active", isActive);
+        });
+      });
+    });
+
+    const labRoot = document.querySelector("[data-laboratory]");
+    if (labRoot) {
+      labRoot.innerHTML = `
+        <div class="laboratory-controls">
+          <div class="laboratory-form">
+            <label class="field-label" for="lab-object-count-explore">
+              Number of Objects
+              <input id="lab-object-count-explore" type="number" min="1" max="20" value="11" data-lab-objects>
+            </label>
+
+            <label class="field-label" for="lab-hole-count-explore">
+              Number of Holes
+              <input id="lab-hole-count-explore" type="number" min="1" max="10" value="5" data-lab-holes>
+            </label>
+
+            <div class="laboratory-actions">
+              <button type="button" class="action-button action-button--primary" data-lab-apply>Apply setup</button>
+              <button type="button" class="action-button" data-lab-reset>Reset</button>
+              <button type="button" class="action-button" data-lab-new-challenge>New Challenge</button>
+            </div>
+          </div>
+
+          <div class="laboratory-summary" aria-live="polite">
+            <p class="card-kicker">Mathematical guarantee</p>
+            <p class="lab-summary-line" data-lab-math></p>
+            <p class="lab-summary-line lab-summary-line--muted" data-lab-current></p>
+            <p class="lab-summary-line lab-summary-line--muted" data-lab-status></p>
+          </div>
+        </div>
+
+        <div class="challenge-panel" data-lab-challenge hidden>
+          <p class="card-kicker">Challenge mode</p>
+          <h2>Can you beat the Pigeonhole Principle?</h2>
+          <p data-lab-challenge-text></p>
+        </div>
+
+        <div class="lab-stage" aria-live="polite">
+          <div class="lab-tray" data-lab-tray aria-label="Object tray"></div>
+          <div class="lab-holes" data-lab-holes aria-label="Hole distribution board"></div>
+        </div>
+
+        <div class="lab-controls-row">
+          <button type="button" class="action-button action-button--primary" data-lab-reveal>Reveal Mathematical Reason</button>
+        </div>
+
+        <div class="reasoning-panel" data-lab-reason hidden></div>
+      `;
+    }
+  </script>
+  <script src="script.js" defer></script>
+</body>
+</html>
