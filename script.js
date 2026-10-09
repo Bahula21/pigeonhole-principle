@@ -267,7 +267,7 @@ if (challengeApp) {
 		{ category: "Numbers", question: "Among 11 integers, what is guaranteed about remainders modulo 10?", options: ["All remainders differ", "Two have the same remainder", "Every remainder occurs twice", "No remainder is 0"], answer: 1, explanation: "There are 10 possible remainders and 11 integers, so two integers share a remainder." },
 		{ category: "Application", question: "A drawer has socks in 4 colors. How many socks guarantee 2 of one color?", options: ["4", "5", "8", "9"], answer: 1, explanation: "With 4 colors, 5 socks guarantee a repeated color: one more sock than the number of categories." },
 		{ category: "Computer science", question: "A system maps 51 keys into 50 hash buckets. What is unavoidable?", options: ["A missing key", "A hash collision", "A new bucket", "A sorted table"], answer: 1, explanation: "More keys than buckets means at least two keys must map to the same bucket." },
-		{ category: "Challenge", question: "What is the smallest number of people guaranteeing at least 4 share a birth month?", options: ["36", "37", "48", "49"], answer: 3, explanation: "To avoid 4 in a month, each of the 12 months can hold at most 3 people: 12 x 3 = 36. Person 37 guarantees a fourth in some month." }
+		{ category: "Challenge", question: "What is the smallest number of people guaranteeing at least 4 share a birth month?", options: ["36", "37", "48", "49"], answer: 1, explanation: "To avoid 4 in a month, each of the 12 months can hold at most 3 people: 12 x 3 = 36. Person 37 guarantees a fourth in some month." }
 	];
 	const progress = challengeApp.querySelector("[data-challenge-progress]");
 	const category = challengeApp.querySelector("[data-challenge-category]");
